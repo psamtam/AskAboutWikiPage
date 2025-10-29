@@ -102,8 +102,11 @@ agent = create_agent(model, tools, system_prompt=prompt)
 
 query = ""
 
-while query != "exit":
+while True:
     query = input("Your prompt: ")
+
+    if query == "exit":
+        break
 
     for step in agent.stream(
         {"messages": [{"role": "user", "content": query}]},
