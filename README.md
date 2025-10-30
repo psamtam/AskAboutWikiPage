@@ -8,4 +8,4 @@ This project runs locally on a Ubuntu (WSL2) machine, with Cuda enabled. The LLM
 - ** For other libraries, please see `requirements.txt`. **
 
 # Demo
-[](!https://github.com/psamtam/AskAboutWikiPage/blob/main/Demo.gif)
+![](https://github.com/psamtam/AskAboutWikiPage/blob/main/Demo.gif)
