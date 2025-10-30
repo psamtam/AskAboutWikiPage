@@ -31,6 +31,12 @@ web_path = input(
     "Enter the URL of the Wikipedia page that you want to ask questions about: \n"
 )
 
+if not (web_path.startswith("https://") and ".wikipedia.org" in web_path):
+    print("Invalid URL. Please enter a valid Wikipedia page URL.\n\nExiting...\n")
+    exit(-1)
+
+print("Loading Wikipedia page...")
+
 # Load and chunk contents of the blog
 loader = WebBaseLoader(
     web_paths=(web_path,),
@@ -75,6 +81,11 @@ if DEBUG:
             f.write(chunk.page_content.strip())
             f.write(f"\n{'*'*100}\n\n")
 
+for chunk in all_splits:
+    if "Wikipedia does not have an article with this exact name." in chunk.page_content:
+        print("Invalid URL. Please enter a valid Wikipedia page URL.\n\nExiting...\n")
+        exit(-2)
+
 # Index chunks
 _ = vector_store.add_documents(documents=all_splits)
 
@@ -103,9 +114,9 @@ agent = create_agent(model, tools, system_prompt=prompt)
 query = ""
 
 while True:
-    query = input("Your prompt: ")
+    query = input(f"\n{25 * '='} Question you want to ask {25 * '='}\n")
 
-    if query == "exit":
+    if query.lower().strip() == "exit":
         break
 
     for step in agent.stream(
